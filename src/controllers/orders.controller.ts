@@ -2,7 +2,8 @@ import { RequestHandler } from "express";
 import { Order } from "../models/order";
 import { StatusCode } from "../utils/enums";
 import { IOrderItems } from "../utils/interfaces";
-import { OrderBodyType, OrderParamsType } from "../schemas/order";
+import { OrderBodyType } from "../schemas/order";
+import { ParamsType } from "../schemas/id";
 
 const getTotal = (items: IOrderItems[]) => {
   return items.reduce((acc, el) => acc + el.price * el.quantity, 0);
@@ -17,7 +18,11 @@ export const getOrders: RequestHandler = async (_req, res, next) => {
   }
 };
 
-export const getOrder: RequestHandler = async (req, res, next) => {
+export const getOrder: RequestHandler<ParamsType, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const order = await Order.findById(req.params.id);
     if (!order)
@@ -46,7 +51,7 @@ export const postOrder: RequestHandler<
 };
 
 export const putOrder: RequestHandler<
-  OrderParamsType,
+  ParamsType,
   unknown,
   OrderBodyType
 > = async (req, res, next) => {
@@ -67,11 +72,11 @@ export const putOrder: RequestHandler<
   }
 };
 
-export const deleteOrder: RequestHandler<
-  OrderParamsType,
-  unknown,
-  unknown
-> = async (req, res, next) => {
+export const deleteOrder: RequestHandler<ParamsType, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id);
     if (!deletedOrder) {
