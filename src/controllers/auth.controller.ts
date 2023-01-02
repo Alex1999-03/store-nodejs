@@ -1,10 +1,15 @@
 import * as bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import { User } from "../models/user";
+import { UserBodyType } from "../schemas/user";
 import * as JwtService from "../services/jwt.services";
 import { StatusCode } from "../utils/enums";
 
-export const register: RequestHandler = async (req, res, next) => {
+export const register: RequestHandler<unknown, unknown, UserBodyType> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const userExist = await User.findOne({ email: req.body.email });
 
@@ -29,7 +34,11 @@ export const register: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const login: RequestHandler = async (req, res, next) => {
+export const login: RequestHandler<unknown, unknown, UserBodyType> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
