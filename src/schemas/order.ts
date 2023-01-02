@@ -3,9 +3,6 @@ import { IdSchema } from "./id";
 
 const BodySchema = z.object({
   customer: IdSchema,
-  total: z
-    .number({ required_error: "The total is required." })
-    .nonnegative({ message: "The total must not be negative." }),
   isCancel: z.optional(z.boolean()),
   items: z.array(
     z.object({
@@ -51,3 +48,7 @@ export const GetOrderSchema = z.object({
     id: IdSchema,
   }),
 });
+
+export type OrderBodyType = z.infer<typeof CreateOrderSchema>["body"];
+
+export type OrderParamsType = z.infer<typeof EditOrderSchema>["params"];

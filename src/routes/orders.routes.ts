@@ -12,7 +12,7 @@ import {
 
 const router = Router();
 
-router.get("/", orderController.getOrder);
+router.get("/", orderController.getOrders);
 
 router.get("/:id", schemaValidator(GetOrderSchema), orderController.getOrder);
 

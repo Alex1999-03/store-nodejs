@@ -1,6 +1,12 @@
 import { RequestHandler } from "express";
 import { Order } from "../models/order";
 import { StatusCode } from "../utils/enums";
+import { IOrderItems } from "../utils/interfaces";
+import { OrderBodyType, OrderParamsType } from "../schemas/order";
+
+const getTotal = (items: IOrderItems[]) => {
+  return items.reduce((acc, el) => acc + el.price * el.quantity, 0);
+};
 
 export const getOrders: RequestHandler = async (_req, res, next) => {
   try {
@@ -25,20 +31,30 @@ export const getOrder: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const postOrder: RequestHandler = async (req, res, next) => {
+export const postOrder: RequestHandler<
+  unknown,
+  unknown,
+  OrderBodyType
+> = async (req, res, next) => {
   try {
-    const newOrder = await Order.create(req.body);
+    const total = getTotal(req.body.items);
+    const newOrder = await Order.create({ ...req.body, total: total });
     return res.status(StatusCode.CREATED).json(newOrder);
   } catch (error) {
     return next(error);
   }
 };
 
-export const putOrder: RequestHandler = async (req, res, next) => {
+export const putOrder: RequestHandler<
+  OrderParamsType,
+  unknown,
+  OrderBodyType
+> = async (req, res, next) => {
   try {
+    const total = getTotal(req.body.items);
     const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      { ...req.body, total: total },
       { new: true }
     );
     if (!updatedOrder)
@@ -51,7 +67,11 @@ export const putOrder: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const deleteOrder: RequestHandler = async (req, res, next) => {
+export const deleteOrder: RequestHandler<
+  OrderParamsType,
+  unknown,
+  unknown
+> = async (req, res, next) => {
   try {
     const deletedOrder = await Order.findByIdAndDelete(req.params.id);
     if (!deletedOrder) {
