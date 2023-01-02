@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IdSchema } from "./id";
+import { ParamsSchema } from "./id";
 import { Roles } from "../utils/enums";
 
 const BodySchema = z.object({
@@ -68,14 +68,12 @@ export const LoginSchema = z.object({
 });
 
 export const EditUserSchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
   body: BodySchema,
 });
 
 export const GetUserSchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
 });
+
+export type UserBodyType = z.infer<typeof BodySchema>;
