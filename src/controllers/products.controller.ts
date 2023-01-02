@@ -3,6 +3,8 @@ import { RequestHandler } from "express";
 import { Product } from "../models/product";
 import { uploadImage } from "../services/cloudinary.services";
 import { StatusCode } from "../utils/enums";
+import { ParamsType } from "../schemas/id";
+import { ProductBodyType } from "../schemas/product";
 
 export const getProducts: RequestHandler = async (_req, res, next) => {
   try {
@@ -13,7 +15,11 @@ export const getProducts: RequestHandler = async (_req, res, next) => {
   }
 };
 
-export const getProduct: RequestHandler = async (req, res, next) => {
+export const getProduct: RequestHandler<ParamsType, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product)
@@ -26,7 +32,11 @@ export const getProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const postProduct: RequestHandler = async (req, res, next) => {
+export const postProduct: RequestHandler<
+  unknown,
+  unknown,
+  ProductBodyType
+> = async (req, res, next) => {
   try {
     const productExist = await Product.findOne({ name: req.body.name });
     if (!productExist) {
@@ -54,7 +64,11 @@ export const postProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const putProduct: RequestHandler = async (req, res, next) => {
+export const putProduct: RequestHandler<
+  ParamsType,
+  unknown,
+  ProductBodyType
+> = async (req, res, next) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
@@ -73,7 +87,11 @@ export const putProduct: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const deleteProduct: RequestHandler = async (req, res, next) => {
+export const deleteProduct: RequestHandler<
+  ParamsType,
+  unknown,
+  unknown
+> = async (req, res, next) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
 
