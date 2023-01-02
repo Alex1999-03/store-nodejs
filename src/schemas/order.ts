@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { IdSchema } from "./id";
+import { ParamsSchema } from "./id";
 
 const BodySchema = z.object({
-  customer: IdSchema,
+  customer: ParamsSchema.shape.id,
   isCancel: z.optional(z.boolean()),
   items: z.array(
     z.object({
@@ -37,18 +37,12 @@ export const CreateOrderSchema = z.object({
 });
 
 export const EditOrderSchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
   body: BodySchema,
 });
 
 export const GetOrderSchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
 });
 
-export type OrderBodyType = z.infer<typeof CreateOrderSchema>["body"];
-
-export type OrderParamsType = z.infer<typeof EditOrderSchema>["params"];
+export type OrderBodyType = z.infer<typeof BodySchema>;
