@@ -1,5 +1,7 @@
 import { RequestHandler } from "express";
 import { Category } from "../models/category";
+import { CategoryBodyType } from "../schemas/category";
+import { ParamsType } from "../schemas/id";
 import { StatusCode } from "../utils/enums";
 
 export const getCategories: RequestHandler = async (_req, res, next) => {
@@ -11,7 +13,11 @@ export const getCategories: RequestHandler = async (_req, res, next) => {
   }
 };
 
-export const getCategory: RequestHandler = async (req, res, next) => {
+export const getCategory: RequestHandler<ParamsType, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const category = await Category.findById(req.params.id);
 
@@ -26,7 +32,11 @@ export const getCategory: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const postCategory: RequestHandler = async (req, res, next) => {
+export const postCategory: RequestHandler<
+  unknown,
+  unknown,
+  CategoryBodyType
+> = async (req, res, next) => {
   try {
     const categoryExist = await Category.findOne({ name: req.body.name });
     if (!categoryExist) {
@@ -41,7 +51,11 @@ export const postCategory: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const putCategory: RequestHandler = async (req, res, next) => {
+export const putCategory: RequestHandler<
+  ParamsType,
+  unknown,
+  CategoryBodyType
+> = async (req, res, next) => {
   try {
     const updatedCategory = await Category.findByIdAndUpdate(
       req.params.id,
@@ -60,7 +74,11 @@ export const putCategory: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const deleteCategory: RequestHandler = async (req, res, next) => {
+export const deleteCategory: RequestHandler<
+  ParamsType,
+  unknown,
+  unknown
+> = async (req, res, next) => {
   try {
     const deletedCategory = await Category.findByIdAndDelete(req.params.id);
 
