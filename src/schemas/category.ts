@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IdSchema } from "./id";
+import { ParamsSchema } from "./id";
 
 const BodySchema = z.object({
   name: z
@@ -19,14 +19,12 @@ export const CreateCategorySchema = z.object({
 });
 
 export const EditCategorySchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
   body: BodySchema,
 });
 
 export const GetCategorySchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
 });
+
+export type CategoryBodyType = z.infer<typeof BodySchema>
