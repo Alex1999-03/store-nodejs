@@ -1,5 +1,7 @@
 import { RequestHandler } from "express";
 import { Brand } from "../models/brand";
+import { BrandBodyType } from "../schemas/brand";
+import { ParamsType } from "../schemas/id";
 import { StatusCode } from "../utils/enums";
 
 export const getBrands: RequestHandler = async (_req, res, next) => {
@@ -11,7 +13,11 @@ export const getBrands: RequestHandler = async (_req, res, next) => {
   }
 };
 
-export const getBrand: RequestHandler = async (req, res, next) => {
+export const getBrand: RequestHandler<ParamsType, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const brand = await Brand.findById(req.params.id);
     if (!brand)
@@ -24,7 +30,11 @@ export const getBrand: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const postBrand: RequestHandler = async (req, res, next) => {
+export const postBrand: RequestHandler<
+  unknown,
+  unknown,
+  BrandBodyType
+> = async (req, res, next) => {
   try {
     const brandExist = await Brand.findOne({ name: req.body.name });
     if (!brandExist) {
@@ -39,7 +49,11 @@ export const postBrand: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const putBrand: RequestHandler = async (req, res, next) => {
+export const putBrand: RequestHandler<
+  ParamsType,
+  unknown,
+  BrandBodyType
+> = async (req, res, next) => {
   try {
     const updatedBrand = await Brand.findByIdAndUpdate(
       req.params.id,
@@ -60,7 +74,11 @@ export const putBrand: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const deleteBrand: RequestHandler = async (req, res, next) => {
+export const deleteBrand: RequestHandler<ParamsType, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const deletedBrand = await Brand.findByIdAndDelete(req.params.id);
 
