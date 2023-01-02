@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IdSchema } from "./id";
+import { ParamsSchema } from "./id";
 
 const ACCEPTED_MIME_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 const MAX_FILE_SIZE = 5000000;
@@ -58,8 +58,8 @@ const BodySchema = z.object({
       invalid_type_error: "The price must be a number.",
     })
     .nonnegative({ message: "The price must not be negative." }),
-  brand: IdSchema,
-  category: IdSchema,
+  brand: ParamsSchema.shape.id,
+  category: ParamsSchema.shape.id,
 });
 
 export const CreateProductSchema = z.object({
@@ -68,14 +68,12 @@ export const CreateProductSchema = z.object({
 });
 
 export const EditProductSchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
   body: BodySchema,
 });
 
 export const GetProductSchema = z.object({
-  params: z.object({
-    id: IdSchema,
-  }),
+  params: ParamsSchema,
 });
+
+export type ProductBodyType = z.infer<typeof BodySchema>;
