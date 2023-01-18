@@ -10,7 +10,7 @@ const BodySchema = z.object({
     .regex(/[A-za-z\u00C0-\u00FF&\s]/, {
       message: "The name must contain only letters.",
     })
-    .min(4, { message: "The name must have at least 4 characters." })
+    .min(2, { message: "The name must have at least 2 characters." })
     .max(16, { message: "The name must have maximum 16 characters." }),
 });
 

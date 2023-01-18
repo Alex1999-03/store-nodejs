@@ -55,6 +55,14 @@ export const putBrand: RequestHandler<
   BrandBodyType
 > = async (req, res, next) => {
   try {
+    const nameExist = await Brand.findOne({ name: req.body.name });
+
+    if (nameExist) {
+      return res
+        .status(StatusCode.FORBIDDEN)
+        .json({ message: "The brand name already exist." });
+    }
+    
     const updatedBrand = await Brand.findByIdAndUpdate(
       req.params.id,
       req.body,
