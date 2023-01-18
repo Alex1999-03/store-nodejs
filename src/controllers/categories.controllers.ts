@@ -44,7 +44,7 @@ export const postCategory: RequestHandler<
       return res.status(StatusCode.CREATED).json(newCategory);
     }
     return res
-      .status(StatusCode.FORBIDDEN)
+      .status(StatusCode.CONFLICT)
       .json({ message: "The category name already exist." });
   } catch (error) {
     return next(error);
@@ -57,6 +57,14 @@ export const putCategory: RequestHandler<
   CategoryBodyType
 > = async (req, res, next) => {
   try {
+    const nameExist = await Category.findOne({ name: req.body.name });
+
+    if (nameExist) {
+      return res
+        .status(StatusCode.CONFLICT)
+        .json({ message: "The category name already exist." });
+    }
+
     const updatedCategory = await Category.findByIdAndUpdate(
       req.params.id,
       req.body,

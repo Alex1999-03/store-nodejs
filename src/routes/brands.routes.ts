@@ -25,13 +25,7 @@ const router = Router();
  *            type: string
  *        required:
  *          - name
- *      BrandNotFound:
- *        type: object
- *        properties:
- *          message: 
- *            type: string
- *            description: A message for the not found brand.
- *    
+ * 
  *    parameters:
  *      brandId:
  *        in: path
@@ -46,7 +40,10 @@ const router = Router();
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/BrandNotFound'
+ *              type: object
+ *              properties:
+ *                message: 
+ *                  type: string
  *      BrandBadRequest:
  *        description: Some brand properties are invalid.
  *        content:
