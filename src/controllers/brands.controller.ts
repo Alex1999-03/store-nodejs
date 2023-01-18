@@ -42,7 +42,7 @@ export const postBrand: RequestHandler<
       return res.status(StatusCode.CREATED).json(newBrand);
     }
     return res
-      .status(StatusCode.FORBIDDEN)
+      .status(StatusCode.CONFLICT)
       .json({ message: "The brand name already exist." });
   } catch (error) {
     return next(error);
@@ -59,7 +59,7 @@ export const putBrand: RequestHandler<
 
     if (nameExist) {
       return res
-        .status(StatusCode.FORBIDDEN)
+        .status(StatusCode.CONFLICT)
         .json({ message: "The brand name already exist." });
     }
     

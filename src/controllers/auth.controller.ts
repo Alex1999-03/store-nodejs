@@ -27,7 +27,7 @@ export const register: RequestHandler<unknown, unknown, UserBodyType> = async (
     }
 
     return res
-      .status(StatusCode.FORBIDDEN)
+      .status(StatusCode.CONFLICT)
       .json({ message: "The email user already exist." });
   } catch (error) {
     return next(error);

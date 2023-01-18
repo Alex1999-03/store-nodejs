@@ -25,17 +25,12 @@ const router = Router();
  *            type: string
  *        required:
  *          - name
- *        example:
- *          id: ''
- *          name: HP
  *      BrandNotFound:
  *        type: object
  *        properties:
  *          message: 
  *            type: string
  *            description: A message for the not found brand.
- *        example:
- *          message: The brand does not exist.
  *    
  *    parameters:
  *      brandId:
@@ -44,13 +39,39 @@ const router = Router();
  *        required: true
  *        schema:
  *          type: string
+ * 
+ *    responses:
+ *      BrandNotFound:
+ *        description: The brand does not exist.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/BrandNotFound'
+ *      BrandBadRequest:
+ *        description: Some brand properties are invalid.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *      BrandNameExist:
+ *        description: The brand name already exist.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message: 
+ *                  type: string
  */
 
 /**
  * @swagger
  * tags:
  *  name: Brands
- *  description: Brands endpoint
+ *  description: Brands endpoints
  */
 
 /**
@@ -87,12 +108,9 @@ router.get("/", brandController.getBrands);
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Brand'
- *      400: 
- *        description: The brand does not exist.
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/BrandNotFound'
+ *      404: 
+ *        $ref: '#/components/responses/BrandNotFound'
+ *        
  */
 
 router.get("/:id", schemaValidator(GetBrandSchema), brandController.getBrand);
@@ -116,18 +134,10 @@ router.get("/:id", schemaValidator(GetBrandSchema), brandController.getBrand);
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Brand'
- *      403: 
- *        description: The brand name already exist.
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message: 
- *                  type: string
- *                  description: A message for when a brand name already exist.
- *              example:
- *                message: The brand name already exist.
+ *      400:
+ *        $ref: '#/components/responses/BrandBadRequest'
+ *      409: 
+ *        $ref: '#/components/responses/BrandNameExist'
  */
 
 router.post(
@@ -159,24 +169,10 @@ router.post(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Brand'
- *      403: 
- *        description: The brand name already exist.
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message: 
- *                  type: string
- *                  description: A message for when a brand name already exist.
- *              example:
- *                message: The brand name already exist.
- *      400: 
- *        description: The brand does not exist.
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/BrandNotFound'
+ *      409: 
+ *        $ref: '#/components/responses/BrandNameExist'
+ *      404: 
+ *        $ref: '#/components/responses/BrandNotFound'
  */
 
 router.put(
@@ -200,12 +196,8 @@ router.put(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Brand'
- *      400: 
- *        description: The brand does not exist.
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/BrandNotFound'
+ *      404: 
+ *        $ref: '#/components/responses/BrandNotFound'
  */
 
 router.delete(
