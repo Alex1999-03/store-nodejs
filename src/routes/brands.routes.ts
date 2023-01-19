@@ -166,6 +166,8 @@ router.post(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Brand'
+ *      400:
+ *        $ref: '#/components/responses/BrandBadRequest'
  *      409: 
  *        $ref: '#/components/responses/BrandNameExist'
  *      404: 
