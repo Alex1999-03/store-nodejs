@@ -195,6 +195,8 @@ router.put(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Brand'
+ *      400:
+ *        $ref: '#/components/responses/BrandBadRequest'
  *      404: 
  *        $ref: '#/components/responses/BrandNotFound'
  */
