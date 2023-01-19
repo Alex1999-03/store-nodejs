@@ -57,7 +57,7 @@ export const postProduct: RequestHandler<
       return res.status(StatusCode.CREATED).json(newProduct);
     }
     return res
-      .status(StatusCode.FORBIDDEN)
+      .status(StatusCode.CONFLICT)
       .json({ message: "The product name already exist." });
   } catch (error) {
     return next(error);
@@ -70,6 +70,14 @@ export const putProduct: RequestHandler<
   ProductBodyType
 > = async (req, res, next) => {
   try {
+    const nameExist = await Product.findOne({ name: req.body.name });
+
+    if (nameExist) {
+      return res
+        .status(StatusCode.CONFLICT)
+        .json({ message: "The product name already exist." });
+    }
+
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,

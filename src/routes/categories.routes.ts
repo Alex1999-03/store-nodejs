@@ -79,7 +79,7 @@ const router = Router();
  *    tags: [Categories]
  *    responses:
  *      200:
- *        description: The list of the product categories.
+ *        description: The list of product categories.
  *        content:
  *          application/json:
  *            schema:

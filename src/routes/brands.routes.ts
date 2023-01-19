@@ -79,7 +79,7 @@ const router = Router();
  *    tags: [Brands]
  *    responses:
  *      200:
- *        description: The list of the product brands.
+ *        description: The list of product brands.
  *        content:
  *          application/json:
  *            schema:
