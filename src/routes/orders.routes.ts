@@ -204,6 +204,8 @@ router.put(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Order'
+ *      400:
+ *        $ref: '#/components/responses/OrderBadRequest'
  *      404: 
  *        $ref: '#/components/responses/OrderNotFound'
  */
