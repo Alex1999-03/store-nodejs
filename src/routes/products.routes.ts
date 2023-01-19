@@ -249,6 +249,8 @@ router.post(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Product'
+ *      400:
+ *        $ref: '#/components/responses/ProductBadRequest'
  *      409: 
  *        $ref: '#/components/responses/ProductNameExist'
  *      404: 
@@ -278,6 +280,8 @@ router.put(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Product'
+ *      400:
+ *        $ref: '#/components/responses/ProductBadRequest'
  *      404: 
  *        $ref: '#/components/responses/ProductNotFound'
  */
