@@ -28,7 +28,6 @@ const router = Router();
  *          secureUrl:
  *            required: true
  *            type: string
- * 
  *      CreateProduct:
  *        type: object
  *        properties:
@@ -66,7 +65,36 @@ const router = Router();
  *          - images
  *          - brand
  *          - category
- *          
+ *      UpdateProduct:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: string
+ *          name: 
+ *            required: true
+ *            type: string
+ *          description:
+ *            required: true
+ *            type: string
+ *          price:
+ *            required: true
+ *            type: number
+ *          stock:
+ *            required: true
+ *            type: number
+ *          brand:
+ *            required: true
+ *            type: string
+ *          category:
+ *            required: true
+ *            type: string
+ *        required:
+ *          - name
+ *          - description
+ *          - price
+ *          - stock
+ *          - brand
+ *          - category
  *      Product: 
  *        type: object
  *        properties:
@@ -241,7 +269,7 @@ router.post(
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Product'
+ *            $ref: '#/components/schemas/UpdateProduct'
  *    responses:
  *      200:
  *        description: Returns the updated product.
