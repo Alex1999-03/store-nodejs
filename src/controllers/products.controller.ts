@@ -1,10 +1,11 @@
 import fs from "node:fs/promises";
 import { RequestHandler } from "express";
 import { Product } from "../models/product";
-import { uploadImage } from "../services/cloudinary.services";
+import { uploadImage, deleteImage } from "../services/cloudinary.services";
 import { StatusCode } from "../utils/enums";
 import { ParamsType } from "../schemas/id";
 import { ProductBodyType } from "../schemas/product";
+import { IProduct } from "../utils/interfaces";
 
 export const getProducts: RequestHandler = async (_req, res, next) => {
   try {
@@ -70,7 +71,10 @@ export const putProduct: RequestHandler<
   ProductBodyType
 > = async (req, res, next) => {
   try {
-    const nameExist = await Product.findOne({ name: req.body.name });
+    const nameExist = await Product.findOne({
+      name: req.body.name,
+      _id: { $ne: req.params.id },
+    });
 
     if (nameExist) {
       return res
@@ -101,14 +105,20 @@ export const deleteProduct: RequestHandler<
   unknown
 > = async (req, res, next) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const product = (await Product.findById(req.params.id)) as IProduct;
 
-    if (!deletedProduct)
+    if (!product)
       return res
         .status(StatusCode.NOT_FOUND)
         .json({ message: "The product does not exist." });
 
-    return res.status(StatusCode.OK).json(deletedProduct);
+    for (let image of product.images) {
+      await deleteImage(image.publicId);
+    }
+
+    await Product.deleteOne({ id: product.id });
+
+    return res.status(StatusCode.OK).json(product);
   } catch (error) {
     return next(error);
   }
