@@ -170,6 +170,8 @@ router.post(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Category'
+ *      400:
+ *        $ref: '#/components/responses/CategoryBadRequest'
  *      409: 
  *        $ref: '#/components/responses/CategoryNameExist'
  *      404: 
