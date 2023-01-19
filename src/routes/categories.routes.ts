@@ -201,6 +201,8 @@ router.put(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Category'
+ *      400:
+ *        $ref: '#/components/responses/CategoryBadRequest'
  *      404: 
  *        $ref: '#/components/responses/CategoryNotFound'
  */
