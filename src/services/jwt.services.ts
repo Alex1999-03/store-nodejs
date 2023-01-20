@@ -9,8 +9,8 @@ export const sign = (user: IUser) => {
     role: user.role,
   };
 
-  const token = jwt.sign(payload, config.API_SECRET);
-  
+  const token = jwt.sign(payload, config.API_SECRET as string);
+
   return {
     id: user.id,
     email: user.email,
