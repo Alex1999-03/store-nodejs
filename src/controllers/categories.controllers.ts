@@ -57,7 +57,10 @@ export const putCategory: RequestHandler<
   CategoryBodyType
 > = async (req, res, next) => {
   try {
-    const nameExist = await Category.findOne({ name: req.body.name });
+    const nameExist = await Category.findOne({
+      name: req.body.name,
+      _id: { $ne: req.params.id },
+    });
 
     if (nameExist) {
       return res
