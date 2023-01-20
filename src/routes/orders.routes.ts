@@ -45,6 +45,34 @@ const router = Router();
  *          - total
  *          - isCancel
  *          - items
+ *      CreateOrder:
+ *        type: object
+ *        properties:
+ *          customer:
+ *            type: string
+ *          items:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/Items'
+ *        required:
+ *          - customer
+ *          - items
+ *      UpdateOrder:
+ *        type: object
+ *        properties:
+ *          id: 
+ *            type: string
+ *          customer:
+ *            type: string
+ *          isCancel: 
+ *            type: boolean
+ *          items:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/Items'
+ *        required:
+ *          - customer
+ *          - items
  * 
  *    parameters:
  *      orderId:
@@ -134,7 +162,7 @@ router.get("/:id", schemaValidator(GetOrderSchema), orderController.getOrder);
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Order'
+ *            $ref: '#/components/schemas/CreateOrder'
  *    responses:
  *      201:
  *        description: Create a order.
@@ -167,7 +195,7 @@ router.post(
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Order'
+ *            $ref: '#/components/schemas/UpdateOrder'
  *    responses:
  *      200:
  *        description: Returns the updated order.
