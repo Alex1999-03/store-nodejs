@@ -5,7 +5,7 @@ import { config } from "./config";
   try {
     mongoose.set("strictQuery", true);
     const db = await mongoose.connect(
-      `mongodb://${config.MONGO_HOST}:27017/${config.MONGO_DATABASE}`
+      `mongodb://${config.MONGO_HOST}:${config.MONGO_PORT}/${config.MONGO_DATABASE}`
     );
     console.log(`Database is connected to: ${db.connection.name}`);
   } catch (error) {
