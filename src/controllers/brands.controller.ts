@@ -55,7 +55,10 @@ export const putBrand: RequestHandler<
   BrandBodyType
 > = async (req, res, next) => {
   try {
-    const nameExist = await Brand.findOne({ name: req.body.name });
+    const nameExist = await Brand.findOne({
+      name: req.body.name,
+      _id: { $ne: req.params.id },
+    });
 
     if (nameExist) {
       return res
